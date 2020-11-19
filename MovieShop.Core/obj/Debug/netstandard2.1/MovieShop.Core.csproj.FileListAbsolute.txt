@@ -1,0 +1,9 @@
+G:\antra rec\MovieShop\MovieShop.Core\bin\Debug\netstandard2.1\MovieShop.Core.deps.json
+G:\antra rec\MovieShop\MovieShop.Core\bin\Debug\netstandard2.1\MovieShop.Core.dll
+G:\antra rec\MovieShop\MovieShop.Core\bin\Debug\netstandard2.1\MovieShop.Core.pdb
+G:\antra rec\MovieShop\MovieShop.Core\obj\Debug\netstandard2.1\MovieShop.Core.csprojAssemblyReference.cache
+G:\antra rec\MovieShop\MovieShop.Core\obj\Debug\netstandard2.1\MovieShop.Core.AssemblyInfoInputs.cache
+G:\antra rec\MovieShop\MovieShop.Core\obj\Debug\netstandard2.1\MovieShop.Core.AssemblyInfo.cs
+G:\antra rec\MovieShop\MovieShop.Core\obj\Debug\netstandard2.1\MovieShop.Core.csproj.CoreCompileInputs.cache
+G:\antra rec\MovieShop\MovieShop.Core\obj\Debug\netstandard2.1\MovieShop.Core.dll
+G:\antra rec\MovieShop\MovieShop.Core\obj\Debug\netstandard2.1\MovieShop.Core.pdb

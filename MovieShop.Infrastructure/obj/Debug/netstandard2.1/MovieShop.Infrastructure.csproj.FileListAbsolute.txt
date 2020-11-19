@@ -1,0 +1,12 @@
+G:\antra rec\MovieShop\MovieShop.Infrastructure\bin\Debug\netstandard2.1\MovieShop.Infrastructure.deps.json
+G:\antra rec\MovieShop\MovieShop.Infrastructure\bin\Debug\netstandard2.1\MovieShop.Infrastructure.dll
+G:\antra rec\MovieShop\MovieShop.Infrastructure\bin\Debug\netstandard2.1\MovieShop.Infrastructure.pdb
+G:\antra rec\MovieShop\MovieShop.Infrastructure\bin\Debug\netstandard2.1\MovieShop.Core.dll
+G:\antra rec\MovieShop\MovieShop.Infrastructure\bin\Debug\netstandard2.1\MovieShop.Core.pdb
+G:\antra rec\MovieShop\MovieShop.Infrastructure\obj\Debug\netstandard2.1\MovieShop.Infrastructure.csprojAssemblyReference.cache
+G:\antra rec\MovieShop\MovieShop.Infrastructure\obj\Debug\netstandard2.1\MovieShop.Infrastructure.AssemblyInfoInputs.cache
+G:\antra rec\MovieShop\MovieShop.Infrastructure\obj\Debug\netstandard2.1\MovieShop.Infrastructure.AssemblyInfo.cs
+G:\antra rec\MovieShop\MovieShop.Infrastructure\obj\Debug\netstandard2.1\MovieShop.Infrastructure.csproj.CoreCompileInputs.cache
+G:\antra rec\MovieShop\MovieShop.Infrastructure\obj\Debug\netstandard2.1\MovieShop.Infrastructure.csproj.CopyComplete
+G:\antra rec\MovieShop\MovieShop.Infrastructure\obj\Debug\netstandard2.1\MovieShop.Infrastructure.dll
+G:\antra rec\MovieShop\MovieShop.Infrastructure\obj\Debug\netstandard2.1\MovieShop.Infrastructure.pdb

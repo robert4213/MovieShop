@@ -5,15 +5,15 @@ namespace MovieShopWeb.Controllers.User
 {
     public class UserController
     {
-        [HttpPost]   
-        public void Create(User user)
-        {
-            return;
-        }
+        // [HttpPost]   
+        // public void Create(User user)
+        // {
+        //     return;
+        // }
 
-        public IActivator Details(int userid)
+        public void Details(int userid)
         {
-            return View();
+            // return View();
         }
     }
 }

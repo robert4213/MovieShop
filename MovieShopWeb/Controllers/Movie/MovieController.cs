@@ -4,19 +4,19 @@ namespace MovieShopWeb.Controllers.Movie
 {
     public class MovieController
     {
-        public IActivator Index()
+        public void Index()
         {
-            return View();
+            // return View();
         }
         
-        public IActivator Details(int movieId)
+        public void Details(int movieId)
         {
-            return View();
+            // return View();
         }
         
-        public IActivator MovieByGenre(int genreId)
+        public void MovieByGenre(int genreId)
         {
-            return View();
+            // return View();
         }
     }
 }

@@ -4,9 +4,9 @@ namespace MovieShopWeb.Controllers.Genre
 {
     public class GenreController
     {
-        public IActivator Index()
+        public void Index()
         {
-            return View();
+            // return View();
         }
     }
 }

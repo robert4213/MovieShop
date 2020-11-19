@@ -8,4 +8,16 @@
       <Folder Include="Views\Movie" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\MovieShop.Core\MovieShop.Core.csproj" />
+      <ProjectReference Include="..\MovieShop.Infrastructure\MovieShop.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
 </Project>
