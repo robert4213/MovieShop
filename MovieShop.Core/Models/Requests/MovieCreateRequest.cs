@@ -1,4 +1,4 @@
-﻿namespace MovieShop.Core.Model
+﻿namespace MovieShop.Core.Models.Requests
 {
     public class MovieCreateRequest
     {

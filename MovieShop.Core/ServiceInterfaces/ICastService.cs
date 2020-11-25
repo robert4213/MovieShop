@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using MovieShop.Core.Model;
+using MovieShop.Core.Models.Responses;
 
 namespace MovieShop.Core.ServiceInterfaces
 {

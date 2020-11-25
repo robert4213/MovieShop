@@ -1,4 +1,4 @@
-﻿namespace MovieShop.Core.Model
+﻿namespace MovieShop.Core.Models.Responses
 {
     public class PagedResultSet<T> where T:class
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MovieShop.Core.Model;
+using MovieShop.Core.Models.Requests;
+using MovieShop.Core.Models.Responses;
 
 namespace MovieShop.Core.ServiceInterfaces
 {
@@ -15,6 +16,7 @@ namespace MovieShop.Core.ServiceInterfaces
         Task<IEnumerable<MovieResponseModel>> GetTopRatedMovies();
         Task<IEnumerable<MovieResponseModel>> GetHighestGrossingMovies();
         Task<IEnumerable<MovieResponseModel>> GetMoviesByGenre(int genreId);
+        Task<IEnumerable<MovieResponseModel>> GetTopRevenueMovies();
         Task<MovieDetailsResponseModel> CreateMovie(MovieCreateRequest movieCreateRequest);
         Task<MovieDetailsResponseModel> UpdateMovie(MovieCreateRequest movieCreateRequest);
     }

@@ -11,7 +11,7 @@ namespace MovieShop.Infrastructure.Repository
 {
     public class EfRepository<T> :IAsyncRepository<T> where T:class
     {
-        private readonly MovieShopDbContext _dbContext;
+        protected readonly MovieShopDbContext _dbContext;
         
         public EfRepository(MovieShopDbContext dbContext)
         {

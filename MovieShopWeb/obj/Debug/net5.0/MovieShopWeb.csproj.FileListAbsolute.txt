@@ -72,3 +72,4 @@ G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\MovieShopWeb.pdb
 G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\MovieShopWeb.genruntimeconfig.cache
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\Humanizer.dll
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
+G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\AutoMapper.dll
