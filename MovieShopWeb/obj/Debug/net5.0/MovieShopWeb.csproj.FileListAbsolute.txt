@@ -73,3 +73,5 @@ G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\MovieShopWeb.genruntimeconf
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\Humanizer.dll
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\AutoMapper.dll
+G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Shared\_MovieCard.cshtml.g.cs
+G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Shared\Components\Genres\Default.cshtml.g.cs

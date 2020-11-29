@@ -27,12 +27,16 @@ namespace MovieShopWeb.Controllers
         public async Task<IActionResult> Index()
         {
             var movies = await _movieService.GetTopRevenueMovies();
+            //
+            // var genres = await _genreService.GetAllGenres();
+            //
+            // var movie = await _movieService.GetMovieAsync(1);
 
-            var genres = await _genreService.GetAllGenres();
+            var testdata = "List of movies";
 
-            var movie = await _movieService.GetMovieAsync(1);
+            ViewBag.myproperty = movies;
             
-            return View();
+            return View(movies);
         }
 
         public IActionResult Privacy()

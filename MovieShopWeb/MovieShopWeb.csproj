@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="Pages" />
       <Folder Include="Views\Movie" />
     </ItemGroup>
 
