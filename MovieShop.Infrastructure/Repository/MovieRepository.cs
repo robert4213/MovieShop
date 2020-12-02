@@ -31,7 +31,12 @@ namespace MovieShop.Infrastructure.Repository
             var movies = await _dbContext.Movies.OrderByDescending(m => m.Revenue).Take(50).ToListAsync();
             return movies;
         }
-        
+
+        public async Task<Movie> GetMovieByImdbUrl(string imdbUrl)
+        {
+            return await _dbContext.Movies.FirstOrDefaultAsync(m => m.ImdbUrl == imdbUrl);
+        }
+
         public override async Task<Movie> GetByIdAsync(int id)
         {
             // non concurrent method
@@ -73,5 +78,7 @@ namespace MovieShop.Infrastructure.Repository
             .FirstOrDefaultAsync(m => m.Id == id);
             return movie is null ? null:movie;
         }
+        
+        
     }
 }

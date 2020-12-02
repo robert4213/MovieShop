@@ -9,5 +9,6 @@ namespace MovieShop.Core.RepositoryInterfaces
         Task<IEnumerable<Movie>> GetTopRatedMovies();
         Task<IEnumerable<Movie>> GetMovieByGenre(int genreId);
         Task<IEnumerable<Movie>> GetHighestRevenueMovies();
+        Task<Movie> GetMovieByImdbUrl(string imdbUrl);
     }
 }

@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "BKbakasdtbJb7haEGPX3l6UPqi5QL2CEmSApgD8SZb5JXM3UzUEvSHbyzNiZ2Z21kqbT0oDtao/U8dkJBpmsLg==",
+  "dgSpecHash": "iUG5PzALKXef25sAf6tm58mNGebZJ63cD/ke6P0GYzR3LVtITjIgS4boRwTA0EG83VqBALHTibEf3niuqdLYVw==",
   "success": true,
   "projectFilePath": "G:\\antra rec\\MovieShop\\MovieShop.Core\\MovieShop.Core.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\rober\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
+    "C:\\Users\\rober\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
+    "C:\\Users\\rober\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\rober\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
+    "C:\\Users\\rober\\.nuget\\packages\\system.reflection.emit\\4.7.0\\system.reflection.emit.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

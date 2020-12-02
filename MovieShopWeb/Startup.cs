@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using MovieShop.Core.Entities;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Core.ServiceInterfaces;
@@ -35,12 +37,24 @@ namespace MovieShopWeb
             // but .net framework does not, we need use 3rd party IOC, ninject, autofac
             services.AddDbContext<MovieShopDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MovieShopDBConnection")));
+
+            //sets the default authentication scheme for the app
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.Cookie.Name = "MovieShopAuthCookie";
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.LoginPath = "/Account/Login";
+            });
             
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IAsyncRepository<Genre>, EfRepository<Genre>>();
+            services.AddScoped<IAsyncRepository<MovieGenre>, EfRepository<MovieGenre>>();
             services.AddScoped<IGenreService, GenreService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICryptoService, CryptoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +75,10 @@ namespace MovieShopWeb
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            
+            app.UseCookiePolicy();
+            
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
