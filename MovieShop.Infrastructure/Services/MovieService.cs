@@ -136,17 +136,6 @@ namespace MovieShop.Infrastructure.Services
                 }
             }
             
-            //test add genre to the MovieGenre table
-            // for (int i = 1; i < 3; i++)
-            // {
-            //     await _movieGenreRepository.AddAsync(new MovieGenre()
-            //     {
-            //         Movieid = createdMovie.Id,
-            //         Genreid = i
-            //     });
-            // }
-            // var checkMovie = await _movieRepository.GetByIdAsync(createdMovie.Id);
-
             var response = _mapper.Map<MovieDetailsResponseModel>(createdMovie);
 
             return response;

@@ -18,5 +18,10 @@ namespace MovieShop.Infrastructure.Services
         {
             return await _repository.ListAllAsync();
         }
+
+        public async Task<IEnumerable<Genre>> GetByName(ICollection<string> names)
+        {
+            return await _repository.ListAsync(g => names.Contains(g.Name));
+        }
     }
 }

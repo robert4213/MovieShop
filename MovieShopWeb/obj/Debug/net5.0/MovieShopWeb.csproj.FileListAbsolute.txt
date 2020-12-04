@@ -74,7 +74,6 @@ G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\Humanizer.dll
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\AutoMapper.dll
 G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Shared\_MovieCard.cshtml.g.cs
-G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Shared\Components\Genres\Default.cshtml.g.cs
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\Microsoft.AspNetCore.Razor.Language.dll
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
 G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\Microsoft.CodeAnalysis.dll
@@ -152,4 +151,6 @@ G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\runtimes\win-arm64\lib\net5
 G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Account\Register.cshtml.g.cs
 G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Account\Login.cshtml.g.cs
 G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Account\MyAccount.cshtml.g.cs
+G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Shared\Components\GenresDropList\Default.cshtml.g.cs
+G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Shared\Components\GenresCheckBox\Default.cshtml.g.cs
 G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Movie\Create.cshtml.g.cs

@@ -7,5 +7,6 @@ namespace MovieShop.Core.ServiceInterfaces
     public interface IGenreService
     {
         Task<IEnumerable<Genre>> GetAllGenres();
+        Task<IEnumerable<Genre>> GetByName(ICollection<string> names);
     }
 }

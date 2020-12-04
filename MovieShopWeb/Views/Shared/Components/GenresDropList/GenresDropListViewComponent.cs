@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieShop.Core.ServiceInterfaces;
 
-namespace MovieShopWeb.Views.Shared.Components.Genres
+namespace MovieShopWeb.Views.Shared.Components.GenresDropList
 {
-    public class GenresViewComponent:ViewComponent
+    public class GenresDropListViewComponent:ViewComponent
     {
         private readonly IGenreService _genreService;
 
-        public GenresViewComponent(IGenreService genreService)
+        public GenresDropListViewComponent(IGenreService genreService)
         {
             _genreService = genreService;
         }
