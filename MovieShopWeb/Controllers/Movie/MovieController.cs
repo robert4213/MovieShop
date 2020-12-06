@@ -52,14 +52,14 @@ namespace MovieShopWeb.Controllers.Movie
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(MovieCreateRequest movieCreateRequest, List<string> genres ,IFormCollection formCollection, string returnUrl = null)
+        public async Task<IActionResult> Create(MovieCreateRequest movieCreateRequest, List<string> genresString ,IFormCollection formCollection, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            genres ??= new List<string>();
+            genresString ??= new List<string>();
             
             if (!ModelState.IsValid) return View();
             // movieCreateRequest.Genres = Genres;
-            movieCreateRequest.Genres = (await _genreService.GetByName(genres)).ToList();
+            movieCreateRequest.Genres = (await _genreService.GetByName(genresString)).ToList();
             
             await _movieService.CreateMovie(movieCreateRequest);
             

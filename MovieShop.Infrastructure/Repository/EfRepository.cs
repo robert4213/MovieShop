@@ -26,6 +26,18 @@ namespace MovieShop.Infrastructure.Repository
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
+        
+        public async Task<IEnumerable<T>> ListAllWithIncludesAsync(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] includes)
+        {
+            var query = _dbContext.Set<T>().AsQueryable();
+
+            if (includes != null)
+                foreach (Expression<Func<T, object>> navigationProperty in includes)
+                    query = query.Include(navigationProperty);
+
+
+            return await query.Where(where).ToListAsync();
+        }
 
         public async Task<IEnumerable<T>> ListAsync(Expression<Func<T, bool>> filter)
         {
@@ -51,7 +63,21 @@ namespace MovieShop.Infrastructure.Repository
             return entity;
         }
 
+        public async Task<IEnumerable<T>> AddAsync(IEnumerable<T> entity)
+        {
+            await _dbContext.Set<T>().AddRangeAsync(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
+        }
+
         public async Task<T> UpdateAsync(T entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task<IEnumerable<T>> UpdateAsync(IEnumerable<T> entity)
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
@@ -61,6 +87,12 @@ namespace MovieShop.Infrastructure.Repository
         public async Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+        
+        public async Task DeleteAsync(IEnumerable<T> entity)
+        {
+            _dbContext.Set<T>().RemoveRange(entity);
             await _dbContext.SaveChangesAsync();
         }
     }

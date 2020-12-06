@@ -13,6 +13,14 @@ namespace MovieShop.Core.Exceptions
         {
             
         }
+        public NotFoundException(string type, string name, string value):base($"No {type} found, {name} is {value}.")
+        {
+            
+        }
+        public NotFoundException(string message):base(message)
+        {
+            
+        }
     }
     
     public class ConflictException : Exception

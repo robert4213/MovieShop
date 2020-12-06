@@ -16,14 +16,23 @@ namespace MovieShop.Infrastructure.Repository
         {
         }
         
-        public async Task<IEnumerable<Movie>> GetTopRatedMovies()
+        public async Task<IEnumerable<Movie>> GetTopRatedMovies(int size = 20)
         {
-            throw new NotImplementedException();
+            var rating = await _dbContext.Reviews.GroupBy(r => r.MovieId)
+                .Select(g => new
+                {
+                    Id = g.Key,
+                    Rating = g.Average(r => r.Rating),
+                }).OrderByDescending(g=>g.Rating).Take(size).ToDictionaryAsync(r => r.Id, r => r.Rating);
+            
+            return _dbContext.Movies.Where(m => rating.Keys.Contains(m.Id)).AsEnumerable().OrderByDescending(m => rating[m.Id]).ToList();
         }
 
         public async Task<IEnumerable<Movie>> GetMovieByGenre(int genreId)
         {
-            throw new NotImplementedException();
+            var movies = await _dbContext.MovieGenres.Where(mg => mg.Genreid == genreId)
+                .Include(mg => mg.Movie).Select(mg => mg.Movie).ToListAsync();
+            return movies;
         }
 
         public async Task<IEnumerable<Movie>> GetHighestRevenueMovies()
@@ -34,7 +43,13 @@ namespace MovieShop.Infrastructure.Repository
 
         public async Task<Movie> GetMovieByImdbUrl(string imdbUrl)
         {
-            return await _dbContext.Movies.FirstOrDefaultAsync(m => m.ImdbUrl == imdbUrl);
+            var movie = await _dbContext.Movies
+                .Include(m => m.MovieCasts)
+                .ThenInclude(m => m.Cast)
+                .Include(m => m.MovieGenres)
+                .ThenInclude(m => m.Genre)
+                .FirstOrDefaultAsync(m => m.ImdbUrl == imdbUrl);
+            return movie;
         }
 
         public override async Task<Movie> GetByIdAsync(int id)

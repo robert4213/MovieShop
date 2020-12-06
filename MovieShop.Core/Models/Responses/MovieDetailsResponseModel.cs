@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MovieShop.Core.Entities;
 
 namespace MovieShop.Core.Models.Responses

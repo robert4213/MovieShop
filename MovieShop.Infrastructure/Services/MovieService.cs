@@ -25,26 +25,12 @@ namespace MovieShop.Infrastructure.Services
         private readonly IMapper _mapper;
         
         //dependence injection allows to create loosely coupled code
-        public MovieService(IMovieRepository movieRepository, IReviewRepository reviewRepository,IAsyncRepository<MovieGenre> movieGenreRepository)
+        public MovieService(IMovieRepository movieRepository, IReviewRepository reviewRepository,IAsyncRepository<MovieGenre> movieGenreRepository, IMapper mapper)
         {
             _movieRepository = movieRepository;
             _reviewRepository = reviewRepository;
             _movieGenreRepository = movieGenreRepository;
-
-            var config = new MapperConfiguration(
-                configure =>
-                {
-                    configure.CreateMap<Movie, MovieDetailsResponseModel>()
-                        .ForMember(dest=>dest.Genres, opt =>
-                        opt.MapFrom(src =>src.MovieGenres.ToList().ConvertAll(input => input.Genre)));
-                    configure.CreateMap<Cast, MovieDetailsResponseModel.CastResponseModel>();
-                    configure.CreateMap<MovieCast, MovieDetailsResponseModel.CastResponseModel>().IncludeMembers(src=>src.Cast);
-                    configure.CreateMap<Movie, MovieResponseModel>()
-                        .ForMember(dest => dest.ReleaseDate,
-                            opt => opt.MapFrom(src => src.ReleaseDate.Value));
-                    configure.CreateMap<MovieCreateRequest, Movie>();
-                });
-            _mapper = new Mapper(config);
+            _mapper = mapper;
         }
         
         public async Task<PagedResultSet<MovieResponseModel>> GetMoviesByPagination(int pageSize = 20, int page = 0, string title = "")
@@ -90,7 +76,8 @@ namespace MovieShop.Infrastructure.Services
 
         public async Task<IEnumerable<ReviewMovieResponseModel>> GetReviewsForMovie(int id)
         {
-            throw new System.NotImplementedException();
+            var reviews = await _reviewRepository.GetReviewByMovie(id);
+            return _mapper.Map<IEnumerable<ReviewMovieResponseModel>>(reviews);
         }
 
         public async Task<int> GetMoviesCount(string title = "")
@@ -100,7 +87,9 @@ namespace MovieShop.Infrastructure.Services
 
         public async Task<IEnumerable<MovieResponseModel>> GetTopRatedMovies()
         {
-            throw new System.NotImplementedException();
+            var movies = await _movieRepository.GetTopRatedMovies();
+            return _mapper.Map<IEnumerable<MovieResponseModel>>(movies);
+
         }
 
         public async Task<IEnumerable<MovieResponseModel>> GetHighestGrossingMovies()
@@ -110,7 +99,8 @@ namespace MovieShop.Infrastructure.Services
 
         public async Task<IEnumerable<MovieResponseModel>> GetMoviesByGenre(int genreId)
         {
-            throw new System.NotImplementedException();
+            var movies = await _movieRepository.GetMovieByGenre(genreId);
+            return _mapper.Map<IEnumerable<MovieResponseModel>>(movies);
         }
 
         public async Task<MovieDetailsResponseModel> CreateMovie(MovieCreateRequest movieCreateRequest)
@@ -126,24 +116,57 @@ namespace MovieShop.Infrastructure.Services
 
             if (movieCreateRequest.Genres != null)
             {
+                var genres = new List<MovieGenre>();
                 foreach (var genre in movieCreateRequest.Genres)
                 {
-                    await _movieGenreRepository.AddAsync(new MovieGenre()
+                    genres.Add(new MovieGenre()
                     {
                         Movieid = createdMovie.Id,
                         Genreid = genre.Id
                     });
                 }
+                await _movieGenreRepository.AddAsync(genres);
             }
             
-            var response = _mapper.Map<MovieDetailsResponseModel>(createdMovie);
+            var finalMovie = await _movieRepository.GetByIdAsync(createdMovie.Id);
+            
+            var response = _mapper.Map<MovieDetailsResponseModel>(finalMovie);
 
             return response;
         }
 
         public async Task<MovieDetailsResponseModel> UpdateMovie(MovieCreateRequest movieCreateRequest)
         {
-            throw new System.NotImplementedException();
+            // var validMovie = await _movieRepository.GetMovieByImdbUrl(movieCreateRequest.ImdbUrl);
+            // if (validMovie is null) throw new NotFoundException("Movie", "ImbdUrl", movieCreateRequest.ImdbUrl);
+
+            var movie = _mapper.Map<Movie>(movieCreateRequest);
+            // movie.Id = validMovie.Id;
+            
+            var updatedMovie = await _movieRepository.UpdateAsync(movie);
+            
+            if (movieCreateRequest.Genres != null)
+            {
+                var movieGenres = (await _movieRepository.GetMovieByImdbUrl(movieCreateRequest.ImdbUrl)).MovieGenres;
+                await _movieGenreRepository.DeleteAsync(movieGenres);
+                
+                var genres = new List<MovieGenre>();
+                foreach (var genre in movieCreateRequest.Genres)
+                {
+                    genres.Add(new MovieGenre()
+                    {
+                        Movieid = updatedMovie.Id,
+                        Genreid = genre.Id
+                    });
+                }
+                await _movieGenreRepository.AddAsync(genres);
+            }
+            
+            var finalMovie = await _movieRepository.GetByIdAsync(updatedMovie.Id);
+            
+            var response = _mapper.Map<MovieDetailsResponseModel>(finalMovie);
+
+            return response;
         }
 
         public async Task<IEnumerable<MovieResponseModel>> GetTopRevenueMovies()

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MovieShop.Core.Entities;
@@ -15,21 +17,19 @@ namespace MovieShop.Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;
-        private readonly Mapper _mapper;
+        private readonly IPurchaseRepository _purchaseRepository;
+        private readonly IAsyncRepository<Favorite> _favoriteRepository;
+        private readonly IReviewRepository _reviewRepository;
+        private readonly IMapper _mapper;
         
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService)
+        public UserService(IUserRepository userRepository, ICryptoService cryptoService,IPurchaseRepository purchaseRepository, IAsyncRepository<Favorite> favoriteRepository, IReviewRepository reviewRepository,IMapper mapper)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
-            
-            var config = new MapperConfiguration(
-                configure =>
-                {
-                    configure.CreateMap<User, UserLoginResponseModel>();
-                    configure.CreateMap<UserRegisterRequestModel,UserRegisterResponseModel>();
-                }
-            );
-            _mapper = new Mapper(config);
+            _mapper = mapper;
+            _purchaseRepository = purchaseRepository;
+            _favoriteRepository = favoriteRepository;
+            _reviewRepository = reviewRepository;
         }
         
         public async Task<UserLoginResponseModel> ValidateUser(string email, string password)
@@ -43,6 +43,11 @@ namespace MovieShop.Infrastructure.Services
             var response = _mapper.Map<UserLoginResponseModel>(user);
 
             return isSuccess ? response : null;
+        }
+
+        public async Task<UserLoginResponseModel> ValidateUser(LoginRequestModel loginRequestModel)
+        {
+            return await ValidateUser(loginRequestModel.Email, loginRequestModel.Password);
         }
 
         public async Task<UserRegisterResponseModel> CreateUser(UserRegisterRequestModel requestModel)
@@ -76,7 +81,8 @@ namespace MovieShop.Infrastructure.Services
 
         public async Task<UserRegisterResponseModel> GetUserDetails(int id)
         {
-            throw new System.NotImplementedException();
+            var user = await _userRepository.GetByIdAsync(id);
+            return _mapper.Map<UserRegisterResponseModel>(user);
         }
 
         public async Task<User> GetUser(string email)
@@ -91,27 +97,48 @@ namespace MovieShop.Infrastructure.Services
 
         public async Task AddFavorite(FavoriteRequestModel favoriteRequest)
         {
-            throw new System.NotImplementedException();
+            if (await FavoriteExists(favoriteRequest.UserId,favoriteRequest.MovieId))
+                throw new ConflictException("User already add favorite");
+
+            var favorite = _mapper.Map<Favorite>(favoriteRequest);
+            await _favoriteRepository.AddAsync(favorite);
         }
 
         public async Task RemoveFavorite(FavoriteRequestModel favoriteRequest)
         {
-            throw new System.NotImplementedException();
+            // if (!(await FavoriteExists(favoriteRequest.UserId,favoriteRequest.MovieId)))
+            //     throw new NotFoundException("User doesn't have this favorite");
+            var favorite =await _favoriteRepository.ListAsync(f =>
+                f.MovieId == favoriteRequest.MovieId && f.UserId == favoriteRequest.UserId);
+            if (!favorite.Any()) throw new NotFoundException("No Favorite Found");
+            await _favoriteRepository.DeleteAsync(favorite.First());
         }
 
         public async Task<bool> FavoriteExists(int id, int movieId)
         {
-            throw new System.NotImplementedException();
+            return await _favoriteRepository.GetExistsAsync(f =>
+                f.MovieId == movieId && f.UserId == id);
         }
 
         public async Task<FavoriteResponseModel> GetAllFavoritesForUser(int id)
         {
-            throw new System.NotImplementedException();
+            var favorites = await _favoriteRepository.ListAllWithIncludesAsync(f => f.UserId == id, f => f.Movie);
+            var response = _mapper.Map<FavoriteResponseModel>(favorites);
+            response.FavoriteMovies =
+                _mapper.Map<IEnumerable<FavoriteResponseModel.FavoriteMovieResponseModel>>(favorites).ToList();
+            return response;
         }
 
         public async Task PurchaseMovie(PurchaseRequestModel purchaseRequest)
         {
-            throw new System.NotImplementedException();
+            if (await _purchaseRepository.GetPurchaseByUserIdAndMovieId(purchaseRequest.UserId, purchaseRequest.MovieId) !=
+                null)
+                throw new ConflictException("Purchase already exists");
+            
+            purchaseRequest.PurchaseNumber??= Guid.NewGuid();
+            purchaseRequest.PurchaseDateTime??= DateTime.Now;
+            var purchase = _mapper.Map<Purchase>(purchaseRequest);
+            await _purchaseRepository.AddAsync(purchase);
         }
 
         public async Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest)
@@ -121,28 +148,45 @@ namespace MovieShop.Infrastructure.Services
 
         public async Task<PurchaseResponseModel> GetAllPurchasesForUser(int id)
         {
-            throw new System.NotImplementedException();
+            var purchases = await _purchaseRepository.GetPurchaseByUserId(id);
+            var response = _mapper.Map<PurchaseResponseModel>(purchases);
+            response.PurchasedMovies =
+                _mapper.Map<IEnumerable<PurchaseResponseModel.PurchasedMovieResponseModel>>(purchases).ToList();
+            return response;
         }
 
         public async Task AddMovieReview(ReviewRequestModel reviewRequest)
         {
-            throw new System.NotImplementedException();
+            if (await _reviewRepository.GetExistsAsync(r =>
+                r.MovieId == reviewRequest.MovieId && r.UserId == reviewRequest.UserId))
+                throw new ConflictException("Review already exists");
+            var review = _mapper.Map<Review>(reviewRequest);
+            await _reviewRepository.AddAsync(review);
         }
 
         public async Task UpdateMovieReview(ReviewRequestModel reviewRequest)
         {
-            throw new System.NotImplementedException();
+            if (!(await _reviewRepository.GetExistsAsync(r =>
+                r.MovieId == reviewRequest.MovieId && r.UserId == reviewRequest.UserId)))
+                throw new NotFoundException("Review does not exist");
+            var review = _mapper.Map<Review>(reviewRequest);
+            await _reviewRepository.UpdateAsync(review);
         }
 
         public async Task DeleteMovieReview(int userId, int movieId)
         {
-            throw new System.NotImplementedException();
+            var review = await _reviewRepository.ListAsync(r =>
+                r.MovieId == movieId && r.UserId == userId);
+            if(!review.Any()) throw new NotFoundException("Review does not exist");
+            await _reviewRepository.DeleteAsync(review.First());
         }
 
         public async Task<ReviewResponseModel> GetAllReviewsByUser(int id)
         {
-            throw new System.NotImplementedException();
+            var review = await _reviewRepository.ListAllWithIncludesAsync(r => r.UserId == id, r => r.Movie);
+            var response = _mapper.Map<ReviewResponseModel>(review);
+            response.MovieReviews = _mapper.Map<IEnumerable<ReviewMovieResponseModel>>(review).ToList();
+            return response;
         }
-        
     }
 }

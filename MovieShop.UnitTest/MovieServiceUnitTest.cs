@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MovieShop.Core.Entities;
 using MovieShop.Core.RepositoryInterfaces;
@@ -22,6 +23,7 @@ namespace MovieShop.UnitTest
         private Mock<IMovieRepository> _mockMovieRepository;
         private Mock<IReviewRepository> _mockReviewRepository;
         private Mock<IAsyncRepository<MovieGenre>> _mockMovieGenreRepository;
+        private Mock<IMapper> _mockMapper;
 
         [TestInitialize]
         //[OneTimeTest] in nunit
@@ -50,11 +52,12 @@ namespace MovieShop.UnitTest
             _mockMovieRepository = new Mock<IMovieRepository>();
             _mockReviewRepository = new Mock<IReviewRepository>();
             _mockMovieGenreRepository = new Mock<IAsyncRepository<MovieGenre>>();
+            _mockMapper = new Mock<IMapper>();
 
             _mockMovieRepository.Setup(m => m.GetHighestRevenueMovies()).ReturnsAsync(_movies);
 
             _sut = new MovieService(_mockMovieRepository.Object, _mockReviewRepository.Object,
-                _mockMovieGenreRepository.Object);
+                _mockMovieGenreRepository.Object,_mockMapper.Object);
         }
 
         [ClassInitialize]

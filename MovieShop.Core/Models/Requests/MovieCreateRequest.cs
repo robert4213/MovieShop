@@ -7,6 +7,7 @@ namespace MovieShop.Core.Models.Requests
 {
     public class MovieCreateRequest
     {
+        public int? Id { get; set; }
         [Required]
         [StringLength(150)]
         public string Title { get; set; }
@@ -45,6 +46,8 @@ namespace MovieShop.Core.Models.Requests
         public int? RunTime { get; set; }
 
         public decimal? Price { get; set; }
+        
+        public List<string> GenresString { get; set; }
 
         public List<Genre> Genres { get; set; }
 
