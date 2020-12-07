@@ -33,7 +33,8 @@ namespace MovieShop.Core.MappingProfiles
                 .ForMember(dest => dest.UserEmail, opt => opt.MapFrom(src => src.User.Email));
             CreateMap<PurchaseRequestModel,Purchase>();
             CreateMap<Movie, PurchaseResponseModel.PurchasedMovieResponseModel>();
-            CreateMap<Purchase, PurchaseResponseModel.PurchasedMovieResponseModel>().IncludeMembers(src => src.Movie);
+            CreateMap<Purchase, PurchaseResponseModel.PurchasedMovieResponseModel>().IncludeMembers(src => src.Movie)
+                .ForMember(dest=>dest.Id,opt=>opt.MapFrom(src=>src.MovieId));
             CreateMap<IEnumerable<Purchase>, PurchaseResponseModel>()
                 .ForMember(dest=>dest.UserId,opt=>opt.MapFrom(src=>src.First().UserId));
             
@@ -54,7 +55,8 @@ namespace MovieShop.Core.MappingProfiles
             //Favorite Service
             CreateMap<FavoriteRequestModel, Favorite>();
             CreateMap<Movie, FavoriteResponseModel.FavoriteMovieResponseModel>();
-            CreateMap<Favorite, FavoriteResponseModel.FavoriteMovieResponseModel>().IncludeMembers(src => src.Movie);
+            CreateMap<Favorite, FavoriteResponseModel.FavoriteMovieResponseModel>().IncludeMembers(src => src.Movie)
+                .ForMember(dest=>dest.Id,opt=>opt.MapFrom(src=>src.MovieId));
             CreateMap<IEnumerable<Favorite>,FavoriteResponseModel>()
                 .ForMember(dest=>dest.UserId,opt=>opt.MapFrom(src=>src.First().UserId));
         }

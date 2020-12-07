@@ -38,23 +38,24 @@ namespace MovieShop.API
         {
             services.AddControllers();
             
-            // services.AddSwaggerGen(c =>
-            // {
-            //     c.SwaggerDoc("v1", new OpenApiInfo {Title = "MovieShop.API", Version = "v1"});
-            // });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "MovieShop.API", Version = "v1"});
+            });
             
             services.AddDbContext<MovieShopDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MovieShopDBConnection"));
             });
             
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MoviesMappingProfile());
-            });
+            // var mapperConfig = new MapperConfiguration(mc =>
+            // {
+            //     mc.AddProfile(new MoviesMappingProfile());
+            // });
 
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
+            // IMapper mapper = mapperConfig.CreateMapper();
+            // services.AddSingleton(mapper);
+            services.AddAutoMapper(typeof(MoviesMappingProfile));
 
             services.AddControllers().AddJsonOptions(o =>
             {
@@ -81,12 +82,12 @@ namespace MovieShop.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // if (env.IsDevelopment())
-            // {
-            //     app.UseDeveloperExceptionPage();
-            //     app.UseSwagger();
-            //     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieShop.API v1"));
-            // }
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieShop.API v1"));
+            }
 
             app.UseHttpsRedirection();
 
