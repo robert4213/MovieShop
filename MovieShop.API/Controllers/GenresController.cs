@@ -18,7 +18,7 @@ namespace MovieShop.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGenres()
         {
-            var response = await _genreService.GetGenresResponse();
+            var response = (await _genreService.GetGenresResponse()).ToList();
             return !response.Any() ? NotFound("No Genre Found") : Ok(response);
         }
     }

@@ -57,10 +57,10 @@ namespace MovieShop.API
             // services.AddSingleton(mapper);
             services.AddAutoMapper(typeof(MoviesMappingProfile));
 
-            services.AddControllers().AddJsonOptions(o =>
-            {
-                o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
+            // services.AddControllers().AddJsonOptions(o =>
+            // {
+            //     o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            // });
             
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IMovieRepository, MovieRepository>();
@@ -88,6 +88,13 @@ namespace MovieShop.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MovieShop.API v1"));
             }
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins(Configuration.GetValue<string>("clientSPAUrl")).AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
 
             app.UseHttpsRedirection();
 

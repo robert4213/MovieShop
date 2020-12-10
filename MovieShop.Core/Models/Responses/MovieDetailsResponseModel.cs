@@ -23,7 +23,7 @@ namespace MovieShop.Core.Models.Responses
         public decimal? Price { get; set; }
         public int FavoritesCount { get; set; }
         public List<CastResponseModel> Casts { get; set; }
-        public List<Genre> Genres { get; set; }
+        public List<GenreMovieResponseModel> Genres { get; set; }
         public class CastResponseModel
         {
             public int Id { get; set; }
@@ -32,6 +32,9 @@ namespace MovieShop.Core.Models.Responses
             public string TmdbUrl { get; set; }
             public string ProfilePath { get; set; }
             public string Character { get; set; }
+        }
+        public class GenreMovieResponseModel:GenreResponseModel
+        {
         }
     }
 }

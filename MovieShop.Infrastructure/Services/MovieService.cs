@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -70,7 +71,8 @@ namespace MovieShop.Infrastructure.Services
             response.Rating = rating;
             response.FavoritesCount = 0; // temporal
             response.Casts = _mapper.Map<List<MovieDetailsResponseModel.CastResponseModel>>(movie.MovieCasts);
-
+            response.Genres =
+                _mapper.Map<List<MovieDetailsResponseModel.GenreMovieResponseModel>>(response.Genres);
             return response;
         }
 
@@ -174,7 +176,7 @@ namespace MovieShop.Infrastructure.Services
             var movies = await _movieRepository.GetHighestRevenueMovies();
             var movieResponseModel = _mapper.Map<List<MovieResponseModel>>(movies);
             
-            // var movieResponseModel =    new List<MovieResponseModel>();
+            // var movieResponseModel = new List<MovieResponseModel>();
             //
             // foreach (var movie in movies)
             // {

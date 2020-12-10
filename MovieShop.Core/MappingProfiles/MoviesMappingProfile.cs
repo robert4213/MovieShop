@@ -44,6 +44,7 @@ namespace MovieShop.Core.MappingProfiles
             
             //Genre Service
             CreateMap<Genre, GenreResponseModel>();
+            CreateMap<Genre, MovieDetailsResponseModel.GenreMovieResponseModel>();
             
             // Review Service
             CreateMap<Review,ReviewMovieResponseModel>().ForMember(dest=>dest.Name,
