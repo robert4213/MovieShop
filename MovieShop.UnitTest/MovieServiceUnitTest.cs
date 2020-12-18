@@ -1,20 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+// using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using MovieShop.Core.Entities;
 using MovieShop.Core.RepositoryInterfaces;
-using MovieShop.Infrastructure.Repository;
 using MovieShop.Infrastructure.Services;
 using Moq;
+using MovieShop.Core.MappingProfiles;
 using MovieShop.Core.Models.Responses;
 
 namespace MovieShop.UnitTest
 {
-    [TestClass]
+    [TestFixture]
     public class MovieServiceUnitTest
     {
         //SUT: system under test
@@ -23,10 +23,10 @@ namespace MovieShop.UnitTest
         private Mock<IMovieRepository> _mockMovieRepository;
         private Mock<IReviewRepository> _mockReviewRepository;
         private Mock<IAsyncRepository<MovieGenre>> _mockMovieGenreRepository;
-        private Mock<IMapper> _mockMapper;
+        private IMapper _mockMapper;
 
-        [TestInitialize]
-        //[OneTimeTest] in nunit
+        [OneTimeSetUp]
+        //[OneTimeSetup] in nunit
         public void OneTimeSetup()
         {
             _movies = new List<Movie>
@@ -48,22 +48,25 @@ namespace MovieShop.UnitTest
                 new Movie {Id = 15, Title = "Iron Man", Budget = 1200000, ReleaseDate = DateTime.Now},
                 new Movie {Id = 16, Title = "Furious 7", Budget = 1200000, ReleaseDate = DateTime.Now}
             };
-            
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MoviesMappingProfile());
+            });
+
+            _mockMapper = mapperConfig.CreateMapper();
+        }
+
+        [SetUp]
+        public void Setup()
+        {
             _mockMovieRepository = new Mock<IMovieRepository>();
             _mockReviewRepository = new Mock<IReviewRepository>();
             _mockMovieGenreRepository = new Mock<IAsyncRepository<MovieGenre>>();
-            _mockMapper = new Mock<IMapper>();
-
+            
             _mockMovieRepository.Setup(m => m.GetHighestRevenueMovies()).ReturnsAsync(_movies);
 
             _sut = new MovieService(_mockMovieRepository.Object, _mockReviewRepository.Object,
-                _mockMovieGenreRepository.Object,_mockMapper.Object);
-        }
-
-        [ClassInitialize]
-        public static void Setup(TestContext context)
-        {
-            
+                _mockMovieGenreRepository.Object,_mockMapper);
         }
 
         /*
@@ -71,7 +74,7 @@ namespace MovieShop.UnitTest
          * Act: Invokes the method or property under test with the arranged parameters.
          * Assert: Verifies that the action of the method under test behaves as expected.
          */
-        [TestMethod]
+        [Test]
         public async Task TestListOfHighestGrossingMoviesFromFakeData()
         {
             //Arrange, act and act
@@ -83,7 +86,7 @@ namespace MovieShop.UnitTest
             // check output
             //Assert
             Assert.IsNotNull(movies);
-            Assert.IsInstanceOfType(movies, typeof(IEnumerable<MovieResponseModel>));
+            CollectionAssert.AllItemsAreInstancesOfType(movies, typeof(MovieResponseModel));
             Assert.AreEqual(16, movies.Count());
         }
     }

@@ -22,6 +22,8 @@ namespace MovieShopWeb.Controllers.Account
         [HttpGet]
         public async Task<IActionResult> Register()
         {
+            var tes = new {id="a"};
+            return Json(tes);
             return View();
         }
 

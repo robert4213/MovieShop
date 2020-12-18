@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using MovieShop.Core.Entities;
@@ -74,6 +75,7 @@ namespace MovieShop.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("{id}/purchases")]
         public async Task<IActionResult> GetPurchase(int id)
         {

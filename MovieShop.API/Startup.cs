@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +22,9 @@ using MovieShop.Infrastructure.Data;
 using MovieShop.Infrastructure.Repository;
 using MovieShop.Infrastructure.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MovieShop.API
 {
@@ -55,12 +59,34 @@ namespace MovieShop.API
 
             // IMapper mapper = mapperConfig.CreateMapper();
             // services.AddSingleton(mapper);
+            
             services.AddAutoMapper(typeof(MoviesMappingProfile));
 
             // services.AddControllers().AddJsonOptions(o =>
             // {
             //     o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             // });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+                opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenSettings:PrivateKey"]))
+                    };
+                });
+            
+            services.AddAuthorization(options =>
+            {
+                var defaultAuthorizationPolicyBuilder =
+                    new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
+                defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+            });
             
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IMovieRepository, MovieRepository>();
@@ -91,7 +117,7 @@ namespace MovieShop.API
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins(Configuration.GetValue<string>("clientSPAUrl")).AllowAnyHeader()
+                builder.WithOrigins(Configuration.GetValue<string>("clientSPAUrl").Split(",")).AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();
             });
@@ -101,6 +127,8 @@ namespace MovieShop.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

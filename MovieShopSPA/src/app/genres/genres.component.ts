@@ -17,7 +17,7 @@ export class GenresComponent implements OnInit {
 
   ngOnInit(): void {
     this.genreService.getAllGenres().subscribe(
-      g=>{
+      g=>{        
         this.genres=g;
       }
     )

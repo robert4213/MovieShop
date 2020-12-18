@@ -67,7 +67,8 @@ namespace MovieShop.Infrastructure.Repository
             // if (movieRating > 0) movie.Rating = movieRating;
             // return movie;
             
-            // concurrent method
+            // Not available because each thread only has one dbContext, and dbContext can execute one query one time.
+            // concurrent method 
             // var movieTask = _dbContext.Movies
             //     .Include(m => m.MovieCasts)
             //     .ThenInclude(m => m.Cast)

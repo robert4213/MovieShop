@@ -8,9 +8,6 @@
         <li class="nav-item active">
           <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
 
         <li class="nav-item dropdown">
             <div ngbDropdown>
@@ -23,9 +20,29 @@
         </div>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        <li class="nav-item"  *ngIf="isUserAuth">
+          <a class="navbar-text" [routerLink]="[ '/purchase/movie']">Purchased</a>
         </li>
+
+        <li class="nav-item" *ngIf="!isUserAuth">
+          <a class="btn btn-outline-primary" [routerLink]="[ '/login' ]">Login</a>
+        </li>
+
+        <li class="nav-item" *ngIf="!isUserAuth">
+          <a class="btn btn-outline-primary" [routerLink]="[ '/register' ]" >Register</a>
+        </li>
+
+        <li class="nav-item" *ngIf="isUserAuth">
+          <a class="btn btn-outline-primary btn-sm rounded-pill my-2 my-sm-0 mx-sm-2" [routerLink]="['/']" (click) = "logout()">
+            Logout
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isUserAuth">
+          <span class="navbar-text">
+            {{ loginUser.family_name + " " + loginUser.given_name }}
+          </span>
+        </li>
+
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

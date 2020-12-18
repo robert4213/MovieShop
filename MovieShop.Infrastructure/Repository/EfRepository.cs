@@ -79,7 +79,10 @@ namespace MovieShop.Infrastructure.Repository
 
         public async Task<IEnumerable<T>> UpdateAsync(IEnumerable<T> entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            foreach (var e in entity)
+            {
+                _dbContext.Entry(e).State = EntityState.Modified;
+            }
             await _dbContext.SaveChangesAsync();
             return entity;
         }

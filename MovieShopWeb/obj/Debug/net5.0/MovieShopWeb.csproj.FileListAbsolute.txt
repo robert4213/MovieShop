@@ -154,3 +154,4 @@ G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Account\MyAccou
 G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Shared\Components\GenresDropList\Default.cshtml.g.cs
 G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Shared\Components\GenresCheckBox\Default.cshtml.g.cs
 G:\antra rec\MovieShop\MovieShopWeb\obj\Debug\net5.0\Razor\Views\Movie\Create.cshtml.g.cs
+G:\antra rec\MovieShop\MovieShopWeb\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
